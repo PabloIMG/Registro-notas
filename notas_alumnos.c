@@ -15,14 +15,17 @@ typedef struct alumno
 
 //* .: Variables globales :. *//
 ALUMNO curso[10];
+
 int notasIngresadas_Examen1 = 0;
 int notasIngresadas_Examen2 = 0;
 int notasIngresadas_Tests = 0;
 
+int alumnoSeleccionado;
+
 //* .: Definición de funciones :. *//
 int menu();
 void ingresar_Notas(int modo);
-void obtenerPromedioAlumno();
+float obtenerPromedioAlumno(int modo); // 1: Obtener manualmente, 2: Obtener automáticamente.
 void obtenerPromedioCurso();
 
 //* .: Programa Principal :. *//
@@ -30,6 +33,7 @@ int main() {
 
     //? Variables.
     int opcion;
+    float promedioAlumno;
     
     do {
         opcion = menu();
@@ -52,15 +56,24 @@ int main() {
 
             case 2:
                 printf("Promedio de X alumno\n");
-                obtenerPromedioAlumno();
+                promedioAlumno = obtenerPromedioAlumno(1);
+
+                //? Dependiendo de la respuesta que recibamos, imprimimos mensajes.
+                if (promedioAlumno != 0) {
+                    printf("El alumno %d tiene un promedio de %.2f\n\nPresione Enter para continuar ...", alumnoSeleccionado, promedioAlumno);
+                    getchar(); getchar();
+                }
+
                 break;
 
             case 3:
                 printf("Promedio general del curso\n");
+                obtenerPromedioCurso();
                 break;
 
             case 4:
-                printf("Muchas gracias por usar el programa!!\n");
+                printf("Muchas gracias por usar el programa!!\n\nPresione Enter para salir ... ");
+                getchar(); getchar();
                 break;
         }
 
@@ -143,34 +156,57 @@ void ingresar_Notas(int modo) {
     }
 }
 
-void obtenerPromedioAlumno() {
+float obtenerPromedioAlumno(int modo) {
 
-    int alumnoSeleccionado;
-    float promedioAlumno;
+    //! CALCULO DEL PROMEDIO SE HARÁ SUMANDO NOTAS Y DIVIDIENDO EN 3. AJUSTAR A LA PONDERACIÓN EN EL FUTURO ..
 
-    do {
-        system("cls");
+    int i;
+    float promedioAlumno = 0, promedioAuxiliar;
 
-        printf("Promedio de X alumno\nIngrese ID de alumno\n\n-> ");
-        scanf("%d", &alumnoSeleccionado);
+    if (modo == 1) {
+        do {
+            system("cls");
 
-    }while(alumnoSeleccionado < 1 || alumnoSeleccionado > 10);
+            printf("Promedio de X alumno\nIngrese ID de alumno\n\n-> ");
+            scanf("%d", &alumnoSeleccionado);
+
+        }while(alumnoSeleccionado < 1 || alumnoSeleccionado > 10);
+    }
 
     //? Pregunto si todas las notas fueron ingresadas, para saber si puedo calcular el promedio.
     if(notasIngresadas_Examen1 >= 10 && notasIngresadas_Examen2 >= 10 && notasIngresadas_Tests >= 10) {
-        //! CALCULO DEL PROMEDIO SE HARÁ SUMANDO NOTAS Y DIVIDIENDO EN 3. AJUSTAR A LA PONDERACIÓN EN EL FUTURO ..
-        promedioAlumno = curso[alumnoSeleccionado-1].nota_examen1 + curso[alumnoSeleccionado-1].nota_examen2 + curso[alumnoSeleccionado-1].promedio_tests;
-        promedioAlumno = promedioAlumno / 3;
+        
+        if (modo == 1) {
+            promedioAlumno = curso[alumnoSeleccionado-1].nota_examen1 + curso[alumnoSeleccionado-1].nota_examen2 + curso[alumnoSeleccionado-1].promedio_tests;
+            promedioAlumno = promedioAlumno / 3;
+        }
+        else {
+            for(i = 0; i < 10; i++) {
+                promedioAuxiliar = curso[i].nota_examen1 + curso[i].nota_examen2 + curso[i].promedio_tests;
+                promedioAuxiliar = promedioAuxiliar / 3;
 
-        printf("El alumno %d tiene un promedio de %.2f\n\nPresione Enter para continuar ...", alumnoSeleccionado, promedioAlumno);
-        getchar(); getchar();
+                promedioAlumno = promedioAlumno + promedioAuxiliar;
+            }
+            promedioAlumno = promedioAlumno / 10;
+        }
+
+        return promedioAlumno;
     }
     else {
         printf("\nNo se puede calcular el promedio\n[Faltan notas]\nPresione Enter para continuar ... ");
         getchar(); getchar();
+        return 0;
     }
 }
 
 void obtenerPromedioCurso() {
     
+    //! CALCULO DEL PROMEDIO SE HARÁ SUMANDO NOTAS Y DIVIDIENDO EN 3. AJUSTAR A LA PONDERACIÓN EN EL FUTURO ..
+
+    float promedioCurso = obtenerPromedioAlumno(2);
+
+    if(promedioCurso != 0) {
+        printf("El promedio del curso es %.2f\n\nPresione Enter para continuar ...", promedioCurso);
+        getchar(); getchar();
+    }
 }

@@ -117,5 +117,15 @@ void ingresar_Notas(int modo) {
             scanf("%f", &nota);
         }while(nota < 1 || nota > 7);
         
+        //? Preguntamos a cual alumno le ingresamos la nota y a qué atributo.
+        if(modo == 1) { // Nota examen 1.
+            curso[i].nota_examen1;
+        }
+        if(modo == 2) { // Nota examen 2.
+            curso[i].nota_examen2;
+        }
+        if(modo == 3) { // Nota promedio tests.
+            curso[i].promedio_tests;
+        }
     }
 }

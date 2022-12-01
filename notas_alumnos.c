@@ -15,6 +15,9 @@ typedef struct alumno
 
 //* .: Variables globales :. *//
 ALUMNO curso[10];
+int notasIngresadas_Examen1 = 0;
+int notasIngresadas_Examen2 = 0;
+int notasIngresadas_Tests = 0;
 
 //* .: Definición de funciones :. *//
 int menu();
@@ -26,36 +29,39 @@ int main() {
     //? Variables.
     int opcion;
     
-    opcion = menu();
+    do {
+        opcion = menu();
 
-    switch (opcion) {
-        case 11:
-            printf("Ingresar Nota - Examen 1\n");
-            ingresar_Notas(1);
-            break;
+        switch (opcion) {
+            case 11:
+                printf("Ingresar Nota - Examen 1\n");
+                ingresar_Notas(1);
+                break;
 
-        case 12:
-            printf("Ingresar Nota - Examen 2\n");
-            ingresar_Notas(2);
-            break;
+            case 12:
+                printf("Ingresar Nota - Examen 2\n");
+                ingresar_Notas(2);
+                break;
 
-        case 13:
-            printf("Ingresar Nota - Promedio Tests\n");
-            ingresar_Notas(3);
-            break;
+            case 13:
+                printf("Ingresar Nota - Promedio Tests\n");
+                ingresar_Notas(3);
+                break;
 
-        case 2:
-            printf("Promedio de X alumno\n");
-            break;
+            case 2:
+                printf("Promedio de X alumno\n");
+                break;
 
-        case 3:
-            printf("Promedio general del curso\n");
-            break;
+            case 3:
+                printf("Promedio general del curso\n");
+                break;
 
-        case 4:
-            printf("Muchas gracias por usar el programa!!\n");
-            break;
-    }
+            case 4:
+                printf("Muchas gracias por usar el programa!!\n");
+                break;
+        }
+
+    }while(opcion != 4);
 
     return 0;
 }
@@ -120,12 +126,15 @@ void ingresar_Notas(int modo) {
         //? Preguntamos a cual alumno le ingresamos la nota y a qué atributo.
         if(modo == 1) { // Nota examen 1.
             curso[i].nota_examen1;
+            notasIngresadas_Examen1 ++;
         }
         if(modo == 2) { // Nota examen 2.
             curso[i].nota_examen2;
+            notasIngresadas_Examen2 ++;
         }
         if(modo == 3) { // Nota promedio tests.
             curso[i].promedio_tests;
+            notasIngresadas_Tests ++;
         }
     }
 }

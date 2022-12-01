@@ -22,6 +22,8 @@ int notasIngresadas_Tests = 0;
 //* .: Definición de funciones :. *//
 int menu();
 void ingresar_Notas(int modo);
+void obtenerPromedioAlumno();
+void obtenerPromedioCurso();
 
 //* .: Programa Principal :. *//
 int main() {
@@ -50,6 +52,7 @@ int main() {
 
             case 2:
                 printf("Promedio de X alumno\n");
+                obtenerPromedioAlumno();
                 break;
 
             case 3:
@@ -107,6 +110,7 @@ int menu() {
 }
 
 void ingresar_Notas(int modo) {
+
     int i;
     float nota;
 
@@ -125,16 +129,48 @@ void ingresar_Notas(int modo) {
         
         //? Preguntamos a cual alumno le ingresamos la nota y a qué atributo.
         if(modo == 1) { // Nota examen 1.
-            curso[i].nota_examen1;
+            curso[i].nota_examen1 = nota;
             notasIngresadas_Examen1 ++;
         }
         if(modo == 2) { // Nota examen 2.
-            curso[i].nota_examen2;
+            curso[i].nota_examen2 = nota;
             notasIngresadas_Examen2 ++;
         }
         if(modo == 3) { // Nota promedio tests.
-            curso[i].promedio_tests;
+            curso[i].promedio_tests = nota;
             notasIngresadas_Tests ++;
         }
     }
+}
+
+void obtenerPromedioAlumno() {
+
+    int alumnoSeleccionado;
+    float promedioAlumno;
+
+    do {
+        system("cls");
+
+        printf("Promedio de X alumno\nIngrese ID de alumno\n\n-> ");
+        scanf("%d", &alumnoSeleccionado);
+
+    }while(alumnoSeleccionado < 1 || alumnoSeleccionado > 10);
+
+    //? Pregunto si todas las notas fueron ingresadas, para saber si puedo calcular el promedio.
+    if(notasIngresadas_Examen1 >= 10 && notasIngresadas_Examen2 >= 10 && notasIngresadas_Tests >= 10) {
+        //! CALCULO DEL PROMEDIO SE HARÁ SUMANDO NOTAS Y DIVIDIENDO EN 3. AJUSTAR A LA PONDERACIÓN EN EL FUTURO ..
+        promedioAlumno = curso[alumnoSeleccionado-1].nota_examen1 + curso[alumnoSeleccionado-1].nota_examen2 + curso[alumnoSeleccionado-1].promedio_tests;
+        promedioAlumno = promedioAlumno / 3;
+
+        printf("El alumno %d tiene un promedio de %.2f\n\nPresione Enter para continuar ...", alumnoSeleccionado, promedioAlumno);
+        getchar(); getchar();
+    }
+    else {
+        printf("\nNo se puede calcular el promedio\n[Faltan notas]\nPresione Enter para continuar ... ");
+        getchar(); getchar();
+    }
+}
+
+void obtenerPromedioCurso() {
+    
 }
